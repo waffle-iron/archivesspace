@@ -22,19 +22,22 @@
 
         var tree_renderer = renderers[root_record_type];
 
+        self.toolbar_container = toolbar_container;
         self.toolbar_renderer = new TreeToolbarRenderer(self, toolbar_container);
 
         self.root_record_type = root_record_type;
 
-        self.large_tree = new LargeTree(self.datasource, 
-                                        tree_container,
-                                        root_uri,
-                                        read_only,
-                                        tree_renderer, 
+        self.large_tree = new LargeTree(/* datasource */ self.datasource, 
+                                        /* container  */ tree_container,
+                                        /* root_uri   */ root_uri,
+                                        /* read_only */  read_only,
+                                        /* renderer */   tree_renderer,
+                                        /* tree_loaded_callback */
                                         function() {
                                             self.ajax_tree = new AjaxTree(self, form_container);
                                             self.resizer = new TreeResizer(self, tree_container);
                                         },
+                                        /* node_selected_callback */
                                         function(node, tree) {
                                             self.toolbar_renderer.render(node);
                                         });
@@ -55,6 +58,30 @@
 
     Tree.prototype.current = function() {
         return $('.current', this.large_tree.elt);
+    };
+
+
+    Tree.prototype.enabledReorderMode = function() {
+        $(this.large_tree.elt).addClass('drag-enabled');
+
+        this.ajax_tree.hide_form();
+        $.scrollTo(0);
+        this.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
+        this.toolbar_renderer = new ReorderModeToolbarRenderer(this, this.toolbar_container);
+        this.toolbar_renderer.render(this.current());
+    };
+
+    Tree.prototype.disableReorderMode = function() {
+        $(this.large_tree.elt).removeClass('drag-enabled');
+
+        this.ajax_tree.show_form();
+        this.resizer.reset();
+        this.toolbar_renderer = new TreeToolbarRenderer(this, this.toolbar_container);
+        this.toolbar_renderer.render(this.current());
+    };
+
+    Tree.prototype.isReorderModeEnabled = function() {
+        return $(this.large_tree.elt).is('.drag-enabled');
     };
 
 
