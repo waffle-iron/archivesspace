@@ -66,6 +66,7 @@
         $(this.large_tree.elt).addClass('drag-enabled');
 
         this.ajax_tree.hide_form();
+        this.ajax_tree.disable_hash_change();
         $.scrollTo(0);
         this.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
         this.toolbar_renderer = new ReorderModeToolbarRenderer(this, this.toolbar_container);
@@ -75,6 +76,7 @@
     Tree.prototype.disableReorderMode = function() {
         $(this.large_tree.elt).removeClass('drag-enabled');
 
+        this.ajax_tree.renable_hash_change();
         this.ajax_tree.show_form();
         this.resizer.reset();
         this.toolbar_renderer = new TreeToolbarRenderer(this, this.toolbar_container);

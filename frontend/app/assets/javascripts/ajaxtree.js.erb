@@ -477,3 +477,18 @@ AjaxTree.prototype._new_node_form_url_for = function(jsonmodel_type) {
         throw 'No new form available for: '+ jsonmodel_type;
     }
 };
+
+AjaxTree.prototype.disable_hash_change = function() {
+    this._old_tree_id = AjaxTree.prototype.tree_id_from_hash();
+    $(window).unbind('hashchange');
+};
+
+AjaxTree.prototype.renable_hash_change = function() {
+    if (this._old_tree_id) {
+        location.hash = 'tree::' + this._old_tree_id;
+        this.loadPaneForId(this._old_tree_id);
+        this._old_tree_id = undefined;
+    }
+
+    this.setupHashChange();
+};
