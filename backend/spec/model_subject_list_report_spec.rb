@@ -21,6 +21,8 @@ describe SubjectListReport do
   it 'has the correct template name' do
     expect(report.template).to eq('generic_listing.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('Subject Records List')
   end
 end

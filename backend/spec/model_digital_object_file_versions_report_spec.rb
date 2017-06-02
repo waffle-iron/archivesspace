@@ -11,7 +11,6 @@ describe DigitalObjectFileVersionsReport do
                                 do_job,
                                 datab) }
   it 'returns the correct fields for the digital object file versions report' do
-    puts report.query.inspect
     expect(report.query.first.keys.length).to eq(4)
     expect(report.query.first).to have_key(:digitalObjectId)
     expect(report.query.first).to have_key(:repo_id)
@@ -21,6 +20,9 @@ describe DigitalObjectFileVersionsReport do
   it 'has the correct template name' do
     expect(report.template).to eq('digital_object_file_versions_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('File Version List')
+    expect(rend.render(report.template)).to include('digital_object_file_versions_list_subreport.erb')
   end
 end

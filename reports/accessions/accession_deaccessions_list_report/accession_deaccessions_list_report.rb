@@ -18,11 +18,6 @@ class AccessionDeaccessionsListReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
   end
 
-  # Number of Records
-  def total_count
-    @total_count ||= self.query.count
-  end
-
   # Accessioned Between - From Date
   def from_date
     @from_date ||= self.query.min(:accession_date)
@@ -33,21 +28,14 @@ class AccessionDeaccessionsListReport < AbstractReport
     @to_date ||= self.query.max(:accession_date)
   end
 
-  # Total Extent of Accessions
-  def total_extent
-    @total_extent ||= db.from(self.query).sum(:extentNumber)
-  end
-
   # Total Extent of Deaccessions
   def total_extent_of_deaccessions
     return @total_extent_of_deaccessions if @total_extent_of_deaccessions
 
     deaccessions = db[:deaccession].where(:accession_id => self.query.select(:id))
     deaccession_extents = db[:extent].where(:deaccession_id => deaccessions.select(:id))
-    
-    @total_extent_of_deaccessions = deaccession_extents.sum(:number)
 
-    @total_extent_of_deaccessions
+    @total_extent_of_deaccessions = deaccession_extents.sum(:number)
   end
 
 end

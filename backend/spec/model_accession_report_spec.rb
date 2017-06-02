@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'erb'
+require_relative '../app/lib/reports/report_response'
 
 describe AccessionReport do
   let(:repo)  { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
@@ -44,6 +46,12 @@ describe AccessionReport do
   it 'has the correct template name' do
     expect(report.template).to eq('accession_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('Accession Report')
+    expect(rend.render(report.template)).to include('accession_deaccessions_subreport.erb')
+    expect(rend.render(report.template)).to include('accession_locations_subreport.erb')
+    expect(rend.render(report.template)).to include('accession_names_subreport.erb')
+    expect(rend.render(report.template)).to include('accession_subjects_subreport.erb')
   end
 end

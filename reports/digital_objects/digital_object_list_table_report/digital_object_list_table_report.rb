@@ -2,10 +2,6 @@ class DigitalObjectListTableReport < AbstractReport
 
   register_report
 
-  def template
-    'generic_listing.erb'
-  end
-
   def headers
     ['title', 'identifier', 'objectType', 'dateExpression', 'resourceIdentifier']
   end

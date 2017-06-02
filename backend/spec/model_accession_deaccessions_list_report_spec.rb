@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'erb'
+require_relative '../app/lib/reports/report_response'
 
 describe AccessionDeaccessionsListReport do
   let(:repo)  { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
@@ -10,7 +12,7 @@ describe AccessionDeaccessionsListReport do
   let(:report) { AccessionDeaccessionsListReport.new({:repo_id => repo.id},
                                 deacc_job,
                                 datab) }
-  it 'returns the correct fields for the accession report' do
+  it 'returns the correct fields for the Accessions Acquired and Linked Deaccession Records report' do
     expect(report.query.first.keys.length).to eq(8)
     expect(report.query.first).to have_key(:accessionId)
     expect(report.query.first).to have_key(:repo_id)
@@ -24,6 +26,9 @@ describe AccessionDeaccessionsListReport do
   it 'has the correct template name' do
     expect(report.template).to eq('accession_deaccessions_list_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('Accessions Acquired and Linked Deaccession Records')
+    expect(rend.render(report.template)).to include('accession_deaccessions_subreport.erb')
   end
 end

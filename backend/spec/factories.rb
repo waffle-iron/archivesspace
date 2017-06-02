@@ -620,6 +620,24 @@ FactoryGirl.define do
     format 'json'
   end
 
+  factory :json_resource_restrict_job, class: JSONModel(:job) do
+    job { build(:json_res_res_job) }
+  end
+
+  factory :json_res_res_job, class: JSONModel(:report_job) do
+    report_type 'ResourceRestrictionsListReport'
+    format 'json'
+  end
+
+  factory :json_unproc_accession_job, class: JSONModel(:job) do
+    job { build(:json_unp_acc_job) }
+  end
+
+  factory :json_unp_acc_job, class: JSONModel(:report_job) do
+    report_type 'UnprocessedAccessionsReport'
+    format 'json'
+  end
+
   factory :json_subject_list_job, class: JSONModel(:job) do
     job { build(:json_sub_list_job) }
   end

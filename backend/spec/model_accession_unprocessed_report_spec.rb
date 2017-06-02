@@ -29,6 +29,9 @@ describe AccessionUnprocessedReport do
   it 'has the correct template name' do
     expect(report.template).to eq('accession_unprocessed_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('Unprocessed Accessions')
+    expect(rend.render(report.template)).to include('accession_resources_subreport.erb')
   end
 end

@@ -14,9 +14,4 @@ class DigitalObjectFileVersionsReport < AbstractReport
              Sequel.as(:digital_object_id, :identifier),
              Sequel.as(:title, :title))
   end
-
-  # Number of Records
-  def total_count
-    @total_count ||= self.query.count
-  end
 end

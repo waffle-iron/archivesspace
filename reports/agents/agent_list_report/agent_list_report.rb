@@ -2,10 +2,6 @@ class AgentListReport < AbstractReport
 
   register_report
 
-  def template
-    'generic_listing.erb'
-  end
-
   def headers
     ['sortName', 'nameType', 'nameSource']
   end

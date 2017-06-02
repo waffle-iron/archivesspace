@@ -4,11 +4,11 @@ describe ResourceRestrictionsListReport do
   let(:repo)  { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
                                                                       :name => "My new test repository")) }
   let(:datab) { Sequel.connect(AppConfig[:db_url]) }
-  let(:res_deacc_job) { Job.create_from_json(build(:json_resource_deacc_job),
+  let(:res_res_job) { Job.create_from_json(build(:json_resource_restrict_job),
                        :repo_id => repo.id,
                        :user => create_nobody_user) }
   let(:report) { ResourceRestrictionsListReport.new({:repo_id => repo.id},
-                                res_deacc_job,
+                                res_res_job,
                                 datab) }
   it 'returns the correct fields for the resource restrictions list report' do
     expect(report.query.first.keys.length).to eq(8)
@@ -24,6 +24,10 @@ describe ResourceRestrictionsListReport do
   it 'has the correct template name' do
     expect(report.template).to eq('resource_restrictions_list_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    puts rend.render(report.template)
+    # expect(rend.render(report.template)).to include('Resources and Locations List')
+    # expect(rend.render(report.template)).to include('resource_locations_subreport.erb')
   end
 end

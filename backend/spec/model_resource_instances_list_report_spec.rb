@@ -23,6 +23,9 @@ describe ResourceInstancesListReport do
   it 'has the correct template name' do
     expect(report.template).to eq('resource_instances_list_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('Resources and Instances List')
+    expect(rend.render(report.template)).to include('resource_instances_subreport.erb')
   end
 end

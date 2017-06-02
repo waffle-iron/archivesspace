@@ -25,6 +25,9 @@ describe LocationReport do
   it 'has the correct template name' do
     expect(report.template).to eq('location_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('Location Report')
+    expect(rend.render(report.template)).to include('location_resources_subreport.erb')
   end
 end

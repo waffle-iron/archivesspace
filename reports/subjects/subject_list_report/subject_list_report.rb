@@ -2,10 +2,6 @@ class SubjectListReport < AbstractReport
 
   register_report
 
-  def template
-    'generic_listing.erb'
-  end
-
   def headers
     ['subject_title', 'subject_term_type', 'subject_source']
   end

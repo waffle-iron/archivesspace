@@ -6,10 +6,6 @@ class AccessionReport < AbstractReport
     "accession_report.erb"
   end
 
-  def accession_count
-    query.count
-  end
-
   def query
     db[:accession]
       .select(Sequel.as(:id, :accessionId),

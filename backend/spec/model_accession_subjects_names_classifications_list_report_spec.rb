@@ -34,6 +34,9 @@ describe AccessionSubjectsNamesClassificationsListReport do
   it 'has the correct template name' do
     expect(report.template).to eq('accession_subjects_names_classifications_list_report.erb')
   end
-  xit 'returns the correct number of values' do
+  it 'renders the expected report' do
+    rend = ReportErbRenderer.new(report,{})
+    expect(rend.render(report.template)).to include('Accessions and Linked Subjects, Names and Classifications')
+    expect(rend.render(report.template)).to include('accession_names_subreport.erb')
   end
 end
