@@ -10,6 +10,15 @@ describe ResourceDeaccessionsListReport do
   let(:report) { ResourceDeaccessionsListReport.new({:repo_id => repo.id},
                                 res_deacc_job,
                                 datab) }
+  before(:each) do
+    res_deacc = create(:json_resource,
+               :deaccessions => [build(:json_deaccession, {
+                 :scope => "whole",
+               })]
+               )
+    res_deacc.save
+  end
+
   it 'returns the correct fields for the resource deaccessions list report' do
     expect(report.query.first.keys.length).to eq(8)
     expect(report.query.first).to have_key(:resourceId)
