@@ -17,6 +17,7 @@ class ReportResponse
   end
 
   def generate
+    puts "params #{@params.inspect}"
     @params[:html_report] ||= proc {
       ReportErbRenderer.new(@report, @params).render("report.erb")
     }

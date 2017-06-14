@@ -6,6 +6,13 @@ class AccessionDeaccessionsListReport < AbstractReport
     'accession_deaccessions_list_report.erb'
   end
 
+  def headers
+    [ 'accessionId', 'repo_id', 'accessionNumber', 'title', 'accessionDate',
+      'containerSummary', 'extentNumber', 'extentType', 'deaccessionId',
+      'de_description', 'de_notification', 'deaccessionDate', 'de_extentNumber',
+      'de_extentType']
+  end
+
   def query
     acc = accessions_query
     acc.each do | a |
