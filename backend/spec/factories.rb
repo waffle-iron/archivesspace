@@ -584,6 +584,15 @@ FactoryGirl.define do
     format 'json'
   end
 
+  factory :json_deaccession_job, class: JSONModel(:job) do
+    job { build(:json_deacc_job) }
+  end
+
+  factory :json_deacc_job, class: JSONModel(:report_job) do
+    report_type 'AccessionDeaccessionsListReport'
+    format 'json'
+  end
+
   factory :json_agent_job, class: JSONModel(:job) do
     job { build(:json_agt_job) }
   end

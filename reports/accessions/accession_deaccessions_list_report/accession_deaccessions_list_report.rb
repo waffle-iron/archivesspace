@@ -7,6 +7,18 @@ class AccessionDeaccessionsListReport < AbstractReport
   end
 
   def query
+    acc = accessions_query
+    acc.each do | a |
+      de = deaccessions_query(a[:accessionId])
+      if de.all.length > 0 && ['csv', 'json', 'xslx'].include?(params[:format])
+        de.each do | d |
+          a.merge!d
+        end
+      end
+    end
+  end
+
+  def accessions_query
     db[:accession].
       select(Sequel.as(:id, :accessionId),
              Sequel.as(:repo_id, :repo_id),
@@ -18,14 +30,26 @@ class AccessionDeaccessionsListReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
   end
 
+  def deaccessions_query(acc_id)
+      db[:deaccession]
+        .filter(:accession_id => acc_id)
+        .select(Sequel.as(:id, :deaccessionId),
+                Sequel.as(:accession_id, :accessionId),
+                Sequel.as(:description, :de_description),
+                Sequel.as(:notification, :de_notification),
+                Sequel.as(Sequel.lit("GetDeaccessionDate(id)"), :deaccessionDate),
+                Sequel.as(Sequel.lit("GetDeaccessionExtent(id)"), :de_extentNumber),
+                Sequel.as(Sequel.lit("GetDeaccessionExtentType(id)"), :de_extentType))
+  end
+
   # Accessioned Between - From Date
   def from_date
-    @from_date ||= self.query.min(:accession_date)
+    @from_date ||= self.accessions_query.min(:accession_date)
   end
 
   # Accessioned Between - To Date
   def to_date
-    @to_date ||= self.query.max(:accession_date)
+    @to_date ||= self.accessions_query.max(:accession_date)
   end
 
   # Total Extent of Deaccessions

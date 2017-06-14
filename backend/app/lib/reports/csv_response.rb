@@ -1,4 +1,6 @@
 require 'csv'
+require 'pry-debugger-jruby'
+require 'pry'
 
 class CSVResponse
 
@@ -16,8 +18,8 @@ class CSVResponse
 
   # just added for the generic response
   def generate
-    output = "" 
-    self.each { |r| output << r } 
+    output = ""
+    self.each { |r| output << r }
     output
   end
 

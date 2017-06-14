@@ -46,6 +46,9 @@ gem "zip-zip", "0.3"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+gem 'pry'
+gem 'pry-debugger-jruby'
+
 # Allow plugins to provide their own Gemfiles too.
 require 'asutils'
 ASUtils.load_plugin_gems(self)

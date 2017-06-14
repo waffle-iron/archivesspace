@@ -7,13 +7,13 @@ require 'erb'
 require 'nokogiri'
 
 class ReportResponse
- 
-  attr_accessor :report
+
+  attr_accessor :report, :params
   attr_accessor :base_url
 
   def initialize(report,  params = {}  )
     @report = report
-    @params = params 
+    @params = params
   end
 
   def generate
